@@ -15,7 +15,7 @@ const createTodo = asyncHandler(async (req: CustomRequest, res: Response) => {
   });
 
   const createdTodo = await todo.save();
-  res.status(201).json(createdTodo);
+  res.status(201).json({message: 'Todo created successfully',createdTodo});
 });
 
 const getTodosByDate = asyncHandler(async (req: CustomRequest, res: Response) => {
@@ -28,7 +28,7 @@ const getTodosByDate = asyncHandler(async (req: CustomRequest, res: Response) =>
     dueDate: { $gte: date, $lt: nextDay },
   });
 
-  res.json(todos);
+  res.json({message: 'Todos retrieved successfully',todos});
 });
 
 const updateTodo = asyncHandler(async (req: Request, res: Response) => {
@@ -42,7 +42,7 @@ const updateTodo = asyncHandler(async (req: Request, res: Response) => {
       { new: true }
     );
   
-    res.json(updatedTodo);
+    res.json({message: 'Todo updated successfully',updatedTodo});
   } else {
     res.status(404);
     throw new Error('Todo not found');
@@ -54,7 +54,7 @@ const deleteTodo = asyncHandler(async (req: Request, res: Response) => {
 
   if (todo) {
     await todo.deleteOne();
-    res.json({ message: 'Todo removed' });
+    res.json({ message: 'Todo removed successfully' });
   } else {
     res.status(404);
     throw new Error('Todo not found');
@@ -67,7 +67,7 @@ const markTodoCompleted = asyncHandler(async (req: Request, res: Response) => {
   if (todo) {
     todo.completed = true;
     const updatedTodo = await todo.save();
-    res.json(updatedTodo);
+    res.json({message: 'Todo marked as completed successfully',updatedTodo});
   } else {
     res.status(404);
     throw new Error('Todo not found');
@@ -80,7 +80,7 @@ const unmarkTodoCompleted = asyncHandler(async (req: Request, res: Response) => 
   if (todo) {
     todo.completed = false;
     const updatedTodo = await todo.save();
-    res.json(updatedTodo);
+    res.json({message:"Todo marked as uncompleted successfully",updatedTodo});
   } else {
     res.status(404);
     throw new Error('Todo not found');
